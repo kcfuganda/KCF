@@ -1,0 +1,544 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Kamusenene Children's Foundation – KCF Uganda</title>
+  <meta name="description" content="The Kamusenene Children's Foundation cares for up to 90 orphaned and abandoned children in Kassanda District, Uganda, providing food, clean water, shelter, education, and hope." />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --green:       #1B4332;
+      --green-mid:   #2D6A4F;
+      --green-light: #D1FAE5;
+      --amber:       #F59E0B;
+      --amber-light: #FEF9C3;
+      --cream:       #FEFCE8;
+      --slate:       #374151;
+      --slate-light: #6B7280;
+    }
+
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Inter', sans-serif;
+      color: var(--slate);
+      background: var(--cream);
+      line-height: 1.7;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      background: rgba(27,67,50,0.97);
+      backdrop-filter: blur(8px);
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0.85rem 2rem;
+    }
+    .nav-logo {
+      font-family: 'Playfair Display', serif;
+      font-size: 1rem; font-weight: 700;
+      color: var(--cream); letter-spacing: 0.02em;
+      text-decoration: none;
+    }
+    .nav-logo span { color: var(--amber); }
+    nav ul { list-style: none; display: flex; gap: 2rem; }
+    nav ul a {
+      font-size: 0.8rem; font-weight: 500; letter-spacing: 0.06em;
+      text-transform: uppercase; color: var(--green-light);
+      text-decoration: none; transition: color 0.2s;
+    }
+    nav ul a:hover { color: var(--amber); }
+
+    /* ── HERO ── */
+    .hero {
+      min-height: 100vh;
+      background: var(--green);
+      display: flex; flex-direction: column;
+      justify-content: center; align-items: flex-start;
+      padding: 7rem 2rem 4rem;
+      position: relative; overflow: hidden;
+    }
+    .hero::before {
+      content: '';
+      position: absolute; inset: 0;
+      background: radial-gradient(ellipse at 70% 50%, rgba(45,106,79,0.4) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .hero::after {
+      content: '';
+      position: absolute; inset: 0;
+      background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23ffffff' fill-opacity='0.025'%3E%3Ccircle cx='30' cy='30' r='2'/%3E%3C/g%3E%3C/svg%3E");
+      pointer-events: none;
+    }
+    .hero-inner { max-width: 780px; position: relative; z-index: 1; }
+    .hero-eyebrow {
+      font-size: 0.72rem; font-weight: 600; letter-spacing: 0.18em;
+      text-transform: uppercase; color: var(--amber);
+      margin-bottom: 1.25rem;
+    }
+    .hero h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2.4rem, 5.5vw, 4.2rem);
+      font-weight: 400; line-height: 1.15;
+      color: var(--cream); margin-bottom: 1.5rem;
+    }
+    .hero h1 em { font-style: italic; color: var(--amber); }
+    .hero-sub {
+      font-size: 1.05rem; color: var(--green-light);
+      max-width: 540px; margin-bottom: 2.5rem; font-weight: 300;
+    }
+    .hero-buttons { display: flex; flex-wrap: wrap; gap: 0.75rem; margin-bottom: 2.5rem; }
+    .btn {
+      display: inline-block; padding: 0.8rem 1.8rem;
+      font-family: 'Inter', sans-serif;
+      font-size: 0.82rem; font-weight: 600; letter-spacing: 0.07em;
+      text-transform: uppercase; text-decoration: none;
+      border-radius: 1px; transition: all 0.2s; cursor: pointer; border: none;
+    }
+    .btn-amber  { background: var(--amber); color: var(--green); }
+    .btn-amber:hover  { background: #d97706; transform: translateY(-1px); }
+    .btn-outline { background: transparent; color: var(--cream); border: 1.5px solid rgba(255,255,255,0.35); }
+    .btn-outline:hover { border-color: var(--amber); color: var(--amber); }
+    .btn-green  { background: var(--green); color: var(--cream); }
+    .btn-green:hover  { background: var(--green-mid); transform: translateY(-1px); }
+    .hero-location {
+      font-size: 0.75rem; color: var(--green-light);
+      opacity: 0.55; letter-spacing: 0.1em; text-transform: uppercase;
+    }
+
+    /* ── STATS ── */
+    .stats-bar {
+      background: var(--green-mid);
+      display: flex; flex-wrap: wrap;
+    }
+    .stat {
+      flex: 1; min-width: 140px;
+      padding: 1.6rem 1.5rem; text-align: center;
+      border-right: 1px solid rgba(255,255,255,0.08);
+    }
+    .stat:last-child { border-right: none; }
+    .stat-number {
+      font-family: 'Playfair Display', serif;
+      font-size: 2rem; color: var(--amber); font-weight: 700; display: block;
+    }
+    .stat-label {
+      font-size: 0.7rem; color: var(--green-light);
+      letter-spacing: 0.09em; text-transform: uppercase; margin-top: 0.25rem;
+    }
+
+    /* ── SECTION BASE ── */
+    section { padding: 5rem 2rem; }
+    .section-inner { max-width: 1080px; margin: 0 auto; }
+    .section-label {
+      font-size: 0.68rem; font-weight: 700; letter-spacing: 0.2em;
+      text-transform: uppercase; color: var(--amber); margin-bottom: 0.6rem;
+    }
+    .section-title {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(1.7rem, 3vw, 2.6rem);
+      font-weight: 400; color: var(--green); line-height: 1.2; margin-bottom: 1.25rem;
+    }
+    .section-rule { width: 44px; height: 3px; background: var(--amber); margin-bottom: 2rem; }
+
+    /* ── ABOUT ── */
+    #about { background: #fff; }
+    .about-grid { display: grid; grid-template-columns: 1.1fr 0.9fr; gap: 4rem; align-items: start; }
+    .about-text p { margin-bottom: 1.1rem; color: var(--slate); font-size: 0.97rem; }
+    .about-text blockquote {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.2rem; font-style: italic;
+      color: var(--green); border-left: 3px solid var(--amber);
+      padding-left: 1.25rem; margin: 1.75rem 0;
+      line-height: 1.5;
+    }
+    .vm-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-top: 1.75rem; }
+    .vm-card {
+      background: var(--cream); padding: 1.25rem;
+      border-top: 3px solid var(--amber);
+    }
+    .vm-card h4 {
+      font-size: 0.65rem; font-weight: 700; letter-spacing: 0.18em;
+      text-transform: uppercase; color: var(--amber); margin-bottom: 0.4rem;
+    }
+    .vm-card p { font-size: 0.85rem; line-height: 1.55; }
+
+    /* photo placeholders */
+    .ph {
+      background: var(--green-light);
+      display: flex; flex-direction: column; align-items: center;
+      justify-content: center; gap: 0.4rem;
+      padding: 2rem; text-align: center;
+      color: var(--green-mid);
+    }
+    .ph-icon { font-size: 2.2rem; opacity: 0.45; }
+    .ph-label { font-size: 0.8rem; font-weight: 600; opacity: 0.7; }
+    .ph-sub   { font-size: 0.68rem; opacity: 0.45; }
+
+    /* ── PROJECTS ── */
+    #projects { background: var(--cream); }
+    .projects-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 1.75rem; margin-top: 2.5rem; }
+    .project-card { background: #fff; overflow: hidden; transition: transform 0.2s, box-shadow 0.2s; }
+    .project-card:hover { transform: translateY(-3px); box-shadow: 0 10px 28px rgba(27,67,50,0.1); }
+    .project-card-img { aspect-ratio: 16/10; }
+    .project-card-body { padding: 1.4rem; }
+    .project-tag {
+      font-size: 0.62rem; font-weight: 700; letter-spacing: 0.16em;
+      text-transform: uppercase; color: var(--amber); margin-bottom: 0.4rem;
+    }
+    .project-card h3 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.15rem; color: var(--green); margin-bottom: 0.6rem;
+    }
+    .project-card p { font-size: 0.87rem; color: var(--slate-light); line-height: 1.55; }
+
+    /* ── GALLERY ── */
+    #gallery { background: var(--green); padding-bottom: 4rem; }
+    #gallery .section-title { color: var(--cream); }
+    .gallery-grid {
+      display: grid;
+      grid-template-columns: repeat(4,1fr);
+      grid-auto-rows: 180px;
+      gap: 0.6rem; margin-top: 2rem;
+    }
+    .gallery-item { overflow: hidden; }
+    .gallery-item:first-child { grid-column: span 2; grid-row: span 2; }
+    .gallery-item .ph {
+      height: 100%;
+      background: rgba(255,255,255,0.06);
+      color: var(--green-light);
+    }
+    .gallery-note {
+      text-align: center; margin-top: 1.25rem;
+      font-size: 0.75rem; color: rgba(255,255,255,0.3);
+    }
+
+    /*
+      ─────────────────────────────────────────────────
+      TO ADD YOUR OWN PHOTOS:
+      1. Save each photo as a .jpg file in the same
+         folder as this index.html file.
+      2. Find the placeholder <div class="ph"> you want
+         to replace, e.g. for the farm:
+           <div class="gallery-item">
+             <div class="ph">...farm photo...</div>
+           </div>
+      3. Replace the entire <div class="ph">...</div>
+         with:
+           <img src="your-photo-name.jpg"
+                alt="Description of photo"
+                style="width:100%;height:100%;object-fit:cover;" />
+      That's it.
+      ─────────────────────────────────────────────────
+    */
+
+    /* ── HOW TO HELP ── */
+    #help { background: var(--amber-light); }
+    .help-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; align-items: start; }
+    .help-card {
+      background: #fff; padding: 2.25rem;
+      border-top: 3px solid var(--green);
+    }
+    .help-card h3 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.35rem; color: var(--green); margin-bottom: 0.9rem;
+    }
+    .help-card p { margin-bottom: 0.9rem; font-size: 0.93rem; }
+    .help-card .note { font-size: 0.78rem; color: var(--slate-light); margin-top: 1rem; }
+    .needs-list { list-style: none; margin: 1.25rem 0; }
+    .needs-list li {
+      display: flex; align-items: flex-start; gap: 0.7rem;
+      padding: 0.5rem 0; border-bottom: 1px solid var(--green-light);
+      font-size: 0.88rem;
+    }
+    .needs-list li::before { content: '✦'; color: var(--amber); font-size: 0.55rem; margin-top: 0.4rem; flex-shrink: 0; }
+    .help-aside h3 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.35rem; color: var(--green); margin-bottom: 0.9rem;
+    }
+    .help-aside p { font-size: 0.93rem; margin-bottom: 0.9rem; }
+    .help-aside a { color: var(--green); font-weight: 500; }
+
+    /* ── CONTACT ── */
+    #contact { background: var(--green); }
+    #contact .section-title { color: var(--cream); }
+    .contact-grid { display: grid; grid-template-columns: repeat(2,1fr); gap: 2.5rem; margin-top: 2.5rem; }
+    .contact-item h4 {
+      font-size: 0.65rem; font-weight: 700; letter-spacing: 0.18em;
+      text-transform: uppercase; color: var(--amber); margin-bottom: 0.4rem;
+    }
+    .contact-item p { font-size: 0.93rem; color: var(--green-light); }
+    .contact-item a { color: var(--green-light); }
+
+    /* ── FOOTER ── */
+    footer {
+      background: #0d1f17;
+      padding: 1.75rem 2rem;
+      text-align: center;
+      font-size: 0.77rem; color: rgba(255,255,255,0.3);
+    }
+    footer strong { color: rgba(255,255,255,0.55); }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 800px) {
+      nav ul { display: none; }
+      .about-grid, .help-grid { grid-template-columns: 1fr; gap: 2rem; }
+      .projects-grid { grid-template-columns: 1fr; }
+      .vm-grid { grid-template-columns: 1fr; }
+      .gallery-grid { grid-template-columns: repeat(2,1fr); grid-auto-rows: 140px; }
+      .gallery-item:first-child { grid-column: span 2; grid-row: span 1; }
+      .stats-bar { flex-direction: column; }
+      .stat { border-right: none; border-bottom: 1px solid rgba(255,255,255,0.08); }
+      .contact-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="#home" class="nav-logo">KCF <span>Uganda</span></a>
+  <ul>
+    <li><a href="#about">About</a></li>
+    <li><a href="#projects">Projects</a></li>
+    <li><a href="#gallery">Gallery</a></li>
+    <li><a href="#help">How to Help</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="home">
+  <div class="hero-inner">
+    <p class="hero-eyebrow">Kassanda District · Central Uganda</p>
+    <h1>Every child deserves<br/><em>a dignified start.</em></h1>
+    <p class="hero-sub">
+      The Kamusenene Children's Foundation provides orphaned and abandoned children
+      with food, clean water, shelter, education, and the hope of a full life.
+    </p>
+    <div class="hero-buttons">
+      <a href="#help"  class="btn btn-amber">Support KCF</a>
+      <a href="#about" class="btn btn-outline">Learn More</a>
+    </div>
+    <p class="hero-location">Kamusenene–Buluya Town Council · Kassanda District · Uganda</p>
+  </div>
+</section>
+
+<!-- STATS -->
+<div class="stats-bar">
+  <div class="stat"><span class="stat-number">90</span><div class="stat-label">Children Cared For</div></div>
+  <div class="stat"><span class="stat-number">6+</span><div class="stat-label">Years of Service</div></div>
+  <div class="stat"><span class="stat-number">5 ha</span><div class="stat-label">Working Farm</div></div>
+  <div class="stat"><span class="stat-number">1,000+</span><div class="stat-label">Villagers with Clean Water</div></div>
+</div>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="section-inner">
+    <div class="about-grid">
+      <div class="about-text">
+        <p class="section-label">Who We Are</p>
+        <h2 class="section-title">Caring for children,<br/>one life at a time</h2>
+        <div class="section-rule"></div>
+        <p>
+          The Kamusenene Children's Foundation (KCF) is a non-profit Community-Based Organization
+          serving orphaned, abandoned, and vulnerable children in Kamusenene–Buluya Town Council,
+          Kassanda District, Central Uganda. We have been growing together for more than six years.
+        </p>
+        <p>
+          We provide the basics every child deserves: nutritious food from our own working farm,
+          clean water from a community borehole, safe shelter, school fees and supplies,
+          healthcare, clothing, and skills training so these children can build independent futures.
+        </p>
+        <blockquote>
+          "With your support, we can transform these children into productive, healthy and happy
+          individuals who shall later be major influencers to their community, country, and the world."
+        </blockquote>
+        <p>
+          KCF cares for up to 90 children at a time. Many have known loss that no child
+          should face. What they find at KCF is a community: people who see them, feed them,
+          teach them, and believe in what they can become.
+        </p>
+        <div class="vm-grid">
+          <div class="vm-card">
+            <h4>Vision</h4>
+            <p>A world where every child has access to basic needs, education, healthcare,
+            and the resources to realize their full potential.</p>
+          </div>
+          <div class="vm-card">
+            <h4>Mission</h4>
+            <p>To foster vulnerable children through a Christian, healthy, fair,
+            safe, and moral start in life.</p>
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <div style="aspect-ratio:4/3; margin-bottom:1.25rem; overflow:hidden;"><img src="KCF-group.jpg" alt="KCF children group photo" style="width:100%;height:100%;object-fit:cover;" /></div>
+        <div style="aspect-ratio:16/9; overflow:hidden;"><img src="KCF-school.jpg" alt="KCF children in school" style="width:100%;height:100%;object-fit:cover;" /></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROJECTS -->
+<section id="projects">
+  <div class="section-inner">
+    <p class="section-label">What We've Built</p>
+    <h2 class="section-title">Projects that sustain<br/>a whole community</h2>
+    <div class="section-rule"></div>
+    <p style="max-width:580px; color:var(--slate-light); font-size:0.95rem;">
+      Every project at KCF began with a need and grew through the generosity of supporters
+      around the world. These are the foundations the children stand on.
+    </p>
+    <div class="projects-grid">
+
+      <div class="project-card">
+        <div class="project-card-img" style="overflow:hidden;"><img src="KCF-farm.jpg" alt="The KCF five-hectare farm" style="width:100%;height:100%;object-fit:cover;" /></div>
+        <div class="project-card-body">
+          <p class="project-tag">Food Security · Est. 2021</p>
+          <h3>The Five-Hectare Farm</h3>
+          <p>Built with donor support, our farm grows maize, sweet potatoes, beans, and more.
+          Harvests feed the children directly; surplus is sold to generate income for
+          school fees, rent, and supplies — making KCF increasingly self-sustaining.</p>
+        </div>
+      </div>
+
+      <div class="project-card">
+        <div class="project-card-img" style="overflow:hidden;"><img src="KCF-well.jpg" alt="The Kamusenene village borehole" style="width:100%;height:100%;object-fit:cover;" /></div>
+        <div class="project-card-body">
+          <p class="project-tag">Clean Water · Est. 2021</p>
+          <h3>The Kamusenene Borehole</h3>
+          <p>In 2021 we drilled a clean water well for the entire village. With households
+          of 8–12 people, the borehole now serves over 1,000 individuals daily — including
+          people who walk from neighboring villages to access this free, clean water source.</p>
+        </div>
+      </div>
+
+      <div class="project-card">
+        <div class="project-card-img" style="overflow:hidden;"><img src="KCF-chickens.jpg" alt="KCF chicken and poultry project" style="width:100%;height:100%;object-fit:cover;" /></div>
+        <div class="project-card-body">
+          <p class="project-tag">Livestock · Ongoing</p>
+          <h3>Poultry for Nutrition & Income</h3>
+          <p>Our chicken project provides protein for the children and generates income
+          through egg and poultry sales. We are actively seeking funding to expand the flock —
+          a larger operation would meaningfully increase KCF's food security and independence.</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- GALLERY -->
+<section id="gallery">
+  <div class="section-inner">
+    <p class="section-label">Life at KCF</p>
+    <h2 class="section-title">Faces of hope</h2>
+    <div class="section-rule" style="background:var(--amber);"></div>
+
+    <div class="gallery-grid">
+      <div class="gallery-item"><img src="KCF-group2.jpg" alt="KCF children — group photo feature" style="width:100%;height:100%;object-fit:cover;" /></div>
+      <div class="gallery-item"><img src="KCF-wheelchair.jpg" alt="KCF child in wheelchair" style="width:100%;height:100%;object-fit:cover;" /></div>
+      <div class="gallery-item"><img src="KCF-farm2.jpg" alt="Children at the KCF farm" style="width:100%;height:100%;object-fit:cover;" /></div>
+      <div class="gallery-item"><img src="KCF-well2.jpg" alt="Children at the Kamusenene borehole" style="width:100%;height:100%;object-fit:cover;" /></div>
+      <div class="gallery-item"><img src="KCF-chickens2.jpg" alt="KCF poultry project" style="width:100%;height:100%;object-fit:cover;" /></div>
+      <div class="gallery-item"><img src="KCF-meal.jpg" alt="Children at mealtime at KCF" style="width:100%;height:100%;object-fit:cover;" /></div>
+      <div class="gallery-item"><img src="KCF-donations.jpg" alt="Children receiving donations at KCF" style="width:100%;height:100%;object-fit:cover;" /></div>
+    </div>
+  </div>
+</section>
+
+<!-- HOW TO HELP -->
+<section id="help">
+  <div class="section-inner">
+    <p class="section-label">Make a Difference</p>
+    <h2 class="section-title">How to support KCF</h2>
+    <div class="section-rule"></div>
+    <div class="help-grid">
+
+      <div class="help-card">
+        <h3>Donate via GoFundMe</h3>
+        <p>
+          KCF is currently a Community-Based Organization working toward full NGO registration.
+          International donations are channeled securely through our GoFundMe campaign and
+          transferred directly to the Foundation.
+        </p>
+        <p>
+          Every dollar goes toward the children's food, school fees, healthcare,
+          and the continuation of KCF's community projects. One-time and recurring
+          contributions are both welcome and deeply appreciated.
+        </p>
+        <!-- ★ REPLACE the href below with your actual GoFundMe link ★ -->
+        <a href="https://www.gofundme.com/f/kamusenene-children039s-foundation" target="_blank" rel="noopener" class="btn btn-green">
+          Donate on GoFundMe
+        </a>
+        <p class="note">
+          A direct monthly donation portal will be available once KCF completes NGO registration.
+        </p>
+      </div>
+
+      <div class="help-aside">
+        <h3>What your support provides</h3>
+        <p>KCF cares for up to 90 children at a time. Here is what donations make possible:</p>
+        <ul class="needs-list">
+          <li>Daily nutritious meals from the KCF farm</li>
+          <li>Clean drinking water for children and the whole village</li>
+          <li>School fees, uniforms, and supplies</li>
+          <li>Rent for safe shelter</li>
+          <li>Healthcare when children fall ill</li>
+          <li>Clothing and hygiene supplies</li>
+          <li>Skills training — farming, brick-making, crafts</li>
+          <li>Expansion of the chicken project</li>
+        </ul>
+        <p style="font-size:0.88rem; color:var(--slate-light);">
+          Questions about KCF or how donations are used?
+          <a href="#contact">Get in touch.</a>
+        </p>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="section-inner">
+    <p class="section-label">Get in Touch</p>
+    <h2 class="section-title">Questions & partnership</h2>
+    <div class="section-rule" style="background:var(--amber);"></div>
+    <p style="color:var(--green-light); max-width:520px; margin-bottom:2.5rem; font-size:0.95rem;">
+      Whether you want to learn more about KCF, discuss a partnership, or simply say hello —
+      we would love to hear from you.
+    </p>
+    <div class="contact-grid">
+      <div class="contact-item">
+        <h4>Location</h4>
+        <p>Kamusenene–Buluya Town Council<br/>Kassanda District, Central Uganda</p>
+      </div>
+      <div class="contact-item">
+        <h4>Contact</h4>
+        <!-- ★ REPLACE with real email address ★ -->
+        <p><a href="mailto:bujingohashim1993@gmail.com">bujingohashim1993@gmail.com</a></p>
+      </div>
+      <div class="contact-item">
+        <h4>Founded</h4>
+        <p>Serving the children of Kamusenene<br/>for more than six years</p>
+      </div>
+      <div class="contact-item">
+        <h4>Registration</h4>
+        <p>Community-Based Organization (CBO)<br/>NGO registration in progress</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <p><strong>Kamusenene Children's Foundation (KCF)</strong> · Kassanda District, Uganda</p>
+  <p style="margin-top:0.4rem;">Caring for children since 2018 · Built with love.</p>
+</footer>
+
+</body>
+</html>
