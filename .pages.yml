@@ -1,0 +1,64 @@
+# Pages CMS settings: the private editor the KCF team uses to post stories.
+# Open https://app.pagescms.org to edit.
+
+media:
+  input: images/stories
+  output: /images/stories
+  extensions: [jpg, jpeg, png, webp]
+
+content:
+  - name: stories
+    label: Stories
+    type: collection
+    path: _stories
+    filename: "{year}-{month}-{day}-{primary}.md"
+    view:
+      primary: title
+      fields: [title, date, published]
+      sort: [date, title]
+      default:
+        sort: date
+        order: desc
+    fields:
+      - name: title
+        label: Story title
+        type: string
+        required: true
+      - name: date
+        label: Date
+        type: date
+        required: true
+      - name: published
+        label: Show this story on the website
+        type: boolean
+        default: true
+      - name: summary
+        label: Short summary
+        description: One or two sentences. This appears on the story card.
+        type: text
+      - name: cover
+        label: Main photo
+        description: Any shape of photo is fine. It will never be cropped.
+        type: image
+      - name: cover_caption
+        label: Main photo caption
+        type: string
+      - name: body
+        label: The story
+        type: rich-text
+      - name: photos
+        label: More photos
+        description: Add as many photos as you like, and write as much as you want about each one.
+        type: object
+        list:
+          collapsible:
+            collapsed: false
+            summary: "Photo {index}"
+        fields:
+          - name: image
+            label: Photo
+            type: image
+          - name: caption
+            label: About this photo
+            description: Write as much as you like. Leave an empty line between paragraphs.
+            type: text
