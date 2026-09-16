@@ -1,0 +1,14 @@
+# Jekyll settings for kcfuganda.org (GitHub Pages builds the site with these)
+title: Kamusenene Children's Foundation
+url: https://kcfuganda.org
+markdown: kramdown
+
+# Stories written by the KCF team in Pages CMS live in the _stories folder.
+# They are gathered into stories.json, which the website reads.
+collections:
+  stories:
+    output: false
+
+exclude:
+  - README.md
+  - STORIES-GUIDE.md

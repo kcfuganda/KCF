@@ -1,0 +1,18 @@
+---
+layout: null
+---
+{%- assign items = site.stories | where_exp: "s", "s.published != false" | sort: "date" | reverse -%}
+[
+{%- for s in items %}
+  {
+    "slug": {{ s.path | split: "/" | last | replace: ".md", "" | jsonify }},
+    "title": {{ s.title | jsonify }},
+    "date": {{ s.date | date: "%Y-%m-%d" | jsonify }},
+    "summary": {{ s.summary | jsonify }},
+    "cover": {{ s.cover | jsonify }},
+    "cover_caption": {{ s.cover_caption | jsonify }},
+    "photos": {{ s.photos | jsonify }},
+    "body": {{ s.content | markdownify | jsonify }}
+  }{% unless forloop.last %},{% endunless %}
+{%- endfor %}
+]

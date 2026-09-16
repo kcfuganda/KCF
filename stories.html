@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Stories | Kamusenene Children's Foundation</title>
+  <meta name="description" content="News, photos, and everyday moments from the Kamusenene Children's Foundation in Kassanda District, Uganda, written by the KCF team.">
+  <meta name="theme-color" content="#1E3A2B">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Kamusenene Children's Foundation">
+  <meta property="og:title" content="Stories from Kamusenene">
+  <meta property="og:description" content="News, photos, and everyday moments from KCF in Uganda.">
+  <meta property="og:image" content="https://kcfuganda.org/KCF-group.jpg">
+
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Ccircle cx='32' cy='32' r='32' fill='%23F2B233'/%3E%3Ctext x='32' y='41' font-family='Arial' font-weight='700' font-size='22' text-anchor='middle' fill='%231E3A2B'%3EKCF%3C/text%3E%3C/svg%3E">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;600;700&family=Literata:ital,opsz,wght@0,7..72,400;0,7..72,500;0,7..72,600;1,7..72,400&display=swap">
+  <link rel="stylesheet" href="kcf.css">
+</head>
+<body>
+
+<a class="skip" href="#main">Skip to content</a>
+
+<header class="site-header">
+  <div class="wrap">
+    <a class="brand" href="./">
+      <span class="brand-mark" aria-hidden="true">KCF</span>
+      <span>Kamusenene Children's Foundation<small>Kassanda District, Uganda</small></span>
+    </a>
+    <button class="menu-btn" aria-expanded="false" aria-controls="site-nav">Menu</button>
+    <nav class="nav" id="site-nav" aria-label="Main">
+      <a href="./#about">About</a>
+      <a href="./#projects">Projects</a>
+      <a href="./#photos">Photos</a>
+      <a href="stories.html" aria-current="page">Stories</a>
+      <a href="./#contact">Contact</a>
+      <a class="nav-donate" href="./#donate">Donate</a>
+    </nav>
+  </div>
+</header>
+
+<main id="main" data-story-page>
+
+  <div data-story-list>
+    <header class="story-hero">
+      <div class="wrap">
+        <h1>Stories from Kamusenene</h1>
+        <p>News, photos, and everyday moments from the children's home, the farm, the borehole,
+        and the classroom, written by the KCF team in Uganda.</p>
+      </div>
+    </header>
+    <section style="padding-top:clamp(2.5rem,5vw,4rem);">
+      <div class="wrap">
+        <div class="story-grid" data-stories>
+          <p class="empty">Loading stories…</p>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <div data-story-detail hidden></div>
+
+</main>
+
+<div class="page-cta">
+  <div class="wrap">
+    <p>Stories like these happen because of supporters around the world.</p>
+    <a class="btn btn-forest" href="./#donate">Donate to KCF</a>
+  </div>
+</div>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <p>© <span data-year>2026</span> Kamusenene Children's Foundation. Caring for children since 2020.</p>
+    <p><a href="./">Home</a></p>
+  </div>
+</footer>
+
+<dialog class="lightbox" id="lightbox" aria-label="Photo viewer">
+  <button class="lb-btn lb-close" type="button" data-lb="close" aria-label="Close photo viewer">✕</button>
+  <div class="lb-stage"><img alt=""></div>
+  <div class="lb-bar">
+    <button class="lb-btn" type="button" data-lb="prev" aria-label="Previous photo">‹</button>
+    <p class="lb-caption"><span></span><span class="lb-count"></span></p>
+    <button class="lb-btn" type="button" data-lb="next" aria-label="Next photo">›</button>
+  </div>
+</dialog>
+
+<script src="kcf.js" defer></script>
+</body>
+</html>
