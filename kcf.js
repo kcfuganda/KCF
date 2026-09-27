@@ -3,7 +3,35 @@
 (function () {
   'use strict';
 
-  var FLUTTERWAVE_URL = 'https://flutterwave.com/donate/1vkp00dchzjl';
+  /* ── Flutterwave configuration ─────────────────────────────────────────────
+     Everything the donation panel needs is in this one block.
+
+     PUBLIC_KEY / TEST_PUBLIC_KEY are *public* keys. They are meant to sit in
+     page source and cannot move money on their own. The matching SECRET key
+     must never appear in this file or anywhere in this repository. If one is
+     ever pasted here by accident, treat it as compromised: revoke it in the
+     Flutterwave dashboard and generate a new one.
+
+     Test mode: add ?flwtest=1 to the page address, e.g.
+        https://kcfuganda.org/?flwtest=1#donate
+     A yellow banner appears and the test key is used, so you can run a full
+     donation with a Flutterwave test card without touching this file.
+
+     MONTHLY_PLANS: monthly giving needs a Payment Plan created in the
+     Flutterwave dashboard (Payments -> Payment Plans). Create one plan per
+     currency, then paste its numeric plan ID below. Any currency left as ''
+     falls back to the hosted Flutterwave donation page for monthly gifts,
+     which is exactly how the site behaved before. One-time giving works now
+     and needs no plan.                                                      */
+  var FLW = {
+    PUBLIC_KEY:      'FLWPUBK-0d2de87853217bfff13025ece2323730-X',
+    TEST_PUBLIC_KEY: 'FLWPUBK_TEST-d46fa04ff3f3bcd617a8185834dcfa65-X',
+    HOSTED_URL:      'https://flutterwave.com/donate/1vkp00dchzjl',
+    LOGO_URL:        'https://kcfuganda.org/KCF-meal.jpg',
+    MONTHLY_PLANS: { USD: '', GBP: '', EUR: '', UGX: '' }
+  };
+
+  var TEST_MODE = /[?&]flwtest=1\b/.test(window.location.search);
 
   /* ── Helpers ───────────────────────────── */
   function $(sel, root) { return (root || document).querySelector(sel); }
@@ -325,6 +353,19 @@
       });
       $('#custom-cur', give).textContent = state.cur;
     }
+    /* Monthly gifts need a Flutterwave payment plan for the chosen currency.
+       Without one we send the donor to the hosted page, as the site did before. */
+    function monthlyPlan() { return (FLW.MONTHLY_PLANS[state.cur] || '').trim(); }
+    function inlineAvailable() {
+      return state.freq === 'once' || monthlyPlan() !== '';
+    }
+
+    function setStatus(text, kind) {
+      var box = $('#give-status', give);
+      box.textContent = text || '';
+      box.className = 'give-status' + (text ? ' is-' + (kind || 'info') : '');
+    }
+
     function update() {
       var amt = currentAmount();
       var valid = amt && amt > 0;
@@ -341,27 +382,117 @@
         impact.textContent = impact.textContent.charAt(0).toUpperCase() + impact.textContent.slice(1);
       }
 
-      steps.innerHTML = '';
-      if (valid) {
-        steps.appendChild(document.createTextNode('Checkout opens on Flutterwave in a new tab. There, choose '));
-        steps.appendChild(el('b', null, state.freq === 'monthly' ? 'Monthly' : 'Give Once'));
-        steps.appendChild(document.createTextNode(', select '));
-        steps.appendChild(el('b', null, state.cur));
-        steps.appendChild(document.createTextNode(', and enter '));
-        steps.appendChild(el('b', null, String(amt)));
-        steps.appendChild(document.createTextNode('. '));
-        var copy = el('button', { type: 'button', class: 'copy' }, 'Copy amount');
-        copy.addEventListener('click', function () {
-          var done = function () { copy.textContent = 'Copied'; setTimeout(function () { copy.textContent = 'Copy amount'; }, 1800); };
-          if (navigator.clipboard) navigator.clipboard.writeText(String(amt)).then(done, function () {});
-        });
-        steps.appendChild(copy);
+      steps.textContent = '';
+      if (valid && !inlineAvailable()) {
+        steps.textContent = 'Monthly giving opens on Flutterwave’s secure page in a new tab. ' +
+          'There, choose Monthly, select ' + state.cur + ', and enter ' + amt + '.';
       }
+
       var btn = $('#give-btn', give);
-      btn.href = FLUTTERWAVE_URL;
-      btn.textContent = valid
-        ? 'Donate ' + fmt(state.cur, amt) + (state.freq === 'monthly' ? ' monthly' : '')
-        : 'Continue to secure checkout';
+      btn.disabled = false;
+      btn.textContent = !valid
+        ? 'Donate'
+        : (inlineAvailable()
+            ? 'Donate ' + fmt(state.cur, amt) + (state.freq === 'monthly' ? ' monthly' : '')
+            : 'Continue to secure checkout');
+      setStatus('');
+    }
+
+    /* ── Flutterwave inline checkout ──────── */
+    function txRef() {
+      var rand = Math.random().toString(36).slice(2, 10);
+      return 'KCF-' + Date.now().toString(36) + '-' + rand;
+    }
+
+    function openHosted() {
+      var w = window.open(FLW.HOSTED_URL, '_blank', 'noopener');
+      if (!w) setStatus('Your browser blocked the new tab. Please allow pop-ups, or open ' +
+        'flutterwave.com/donate/1vkp00dchzjl directly.', 'warn');
+    }
+
+    function thankYou(amt) {
+      var box = $('#give-status', give);
+      box.className = 'give-status is-done';
+      box.textContent = '';
+      box.appendChild(el('strong', null, 'Thank you.'));
+      box.appendChild(document.createTextNode(
+        ' Your gift of ' + fmt(state.cur, amt) + (state.freq === 'monthly' ? ' a month' : '') +
+        ' is on its way to Kamusenene. Flutterwave will email your receipt. ' +
+        'To give again, change the amount above.'));
+      /* Lock the button so a second click cannot charge twice. Any change to
+         the form calls update(), which re-enables it. */
+      var btn = $('#give-btn', give);
+      btn.disabled = true;
+      btn.textContent = 'Donation received';
+      if (box.scrollIntoView) box.scrollIntoView({ block: 'center', behavior: 'smooth' });
+    }
+
+    function pay() {
+      var btn = $('#give-btn', give);
+      var amt = currentAmount();
+      if (!amt || amt <= 0) { setStatus('Please choose or enter an amount first.', 'warn'); return; }
+
+      if (!inlineAvailable()) { openHosted(); return; }
+
+      var email = ($('#donor-email', give).value || '').trim();
+      var name = ($('#donor-name', give).value || '').trim();
+      if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email)) {
+        setStatus('Please enter a valid email address so Flutterwave can send your receipt.', 'warn');
+        $('#donor-email', give).focus();
+        return;
+      }
+
+      if (typeof window.FlutterwaveCheckout !== 'function') {
+        setStatus('The secure payment window could not load — an ad blocker or network ' +
+          'filter may be blocking it. Opening Flutterwave in a new tab instead.', 'warn');
+        setTimeout(openHosted, 1200);
+        return;
+      }
+
+      var options = {
+        public_key: TEST_MODE ? FLW.TEST_PUBLIC_KEY : FLW.PUBLIC_KEY,
+        tx_ref: txRef(),
+        amount: amt,
+        currency: state.cur,
+        customer: { email: email, name: name || 'KCF donor' },
+        customizations: {
+          title: 'Kamusenene Children’s Foundation',
+          description: state.freq === 'monthly' ? 'Monthly donation to KCF' : 'Donation to KCF',
+          logo: FLW.LOGO_URL
+        },
+        callback: function (data) {
+          try { if (window.FlutterwaveCheckout && window.FlutterwaveCheckout.close) window.FlutterwaveCheckout.close(); } catch (e) {}
+          var ok = data && (data.status === 'successful' || data.status === 'completed');
+          if (ok) {
+            thankYou(amt);
+          } else {
+            btn.disabled = false;
+            setStatus('That payment did not complete. Nothing has been charged — ' +
+              'you are welcome to try again, or use a different card.', 'warn');
+          }
+        },
+        onclose: function () {
+          var box = $('#give-status', give);
+          if (!box.classList.contains('is-done')) {
+            btn.disabled = false;
+            setStatus('Checkout closed. Nothing has been charged.', 'info');
+          }
+        }
+      };
+
+      var plan = monthlyPlan();
+      if (state.freq === 'monthly' && plan) options.payment_plan = plan;
+
+      /* Guard against a double click opening two checkout windows. */
+      btn.disabled = true;
+      setStatus('Opening the secure payment window…', 'info');
+      try {
+        window.FlutterwaveCheckout(options);
+      } catch (err) {
+        btn.disabled = false;
+        setStatus('The secure payment window could not open. Opening Flutterwave in a new tab instead.', 'warn');
+        setTimeout(openHosted, 1200);
+      }
     }
 
     give.addEventListener('change', function (e) {
@@ -376,6 +507,13 @@
       $all('input[name="amt"]', give).forEach(function (r) { r.checked = !state.custom && parseInt(r.value, 10) === state.tier; });
       update();
     });
+
+    $('#give-btn', give).addEventListener('click', pay);
+
+    if (TEST_MODE) {
+      var bar = $('#testbar', give);
+      if (bar) bar.hidden = false;
+    }
 
     buildChips();
     update();

@@ -20,6 +20,11 @@
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preconnect" href="https://checkout.flutterwave.com">
+
+  <!-- Flutterwave Inline Checkout. Loads before kcf.js because deferred scripts
+       run in document order. kcf.js still guards for it being blocked. -->
+  <script src="https://checkout.flutterwave.com/v3.js" defer></script>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;600;700&family=Literata:ital,opsz,wght@0,7..72,400;0,7..72,500;0,7..72,600;1,7..72,400&display=swap">
   <link rel="stylesheet" href="kcf.css">
 
@@ -265,7 +270,8 @@
       <div>
         <h2 id="donate-title">Give a child a full plate, a school day, a future</h2>
         <p class="lede">Donations go directly to the Foundation in Uganda through Flutterwave,
-        a secure payment platform. You can give once or set up a monthly gift.</p>
+        a secure payment platform. You can give once or set up a monthly gift, and you can
+        do it right here without leaving this page.</p>
         <p style="margin-top:1rem;">Your gift helps provide:</p>
         <ul class="needs">
           <li>Daily nutritious meals, grown on the KCF farm</li>
@@ -281,6 +287,7 @@
       </div>
 
       <form class="give" id="give" onsubmit="return false;" aria-labelledby="give-title">
+        <p class="testbar" id="testbar" hidden>Test mode — no real money moves. Use a Flutterwave test card.</p>
         <h3 id="give-title">Make a donation</h3>
 
         <fieldset>
@@ -312,12 +319,27 @@
 
         <p class="impact" id="impact" aria-live="polite"></p>
 
-        <a class="btn btn-forest" id="give-btn" href="https://flutterwave.com/donate/1vkp00dchzjl" target="_blank" rel="noopener">Continue to secure checkout</a>
+        <fieldset class="donor">
+          <legend>Your details</legend>
+          <label class="field" for="donor-name">
+            <span>Name <em>(optional)</em></span>
+            <input id="donor-name" name="donor-name" type="text" autocomplete="name" placeholder="So we can thank you">
+          </label>
+          <label class="field" for="donor-email">
+            <span>Email</span>
+            <input id="donor-email" name="donor-email" type="email" autocomplete="email" required placeholder="you@example.com" aria-describedby="email-note">
+          </label>
+          <p class="field-note" id="email-note">Flutterwave sends your receipt here. We never publish or sell it.</p>
+        </fieldset>
+
+        <button class="btn btn-forest" id="give-btn" type="button">Donate</button>
+
+        <p class="give-status" id="give-status" role="status" aria-live="polite"></p>
 
         <p class="steps" id="steps"></p>
         <p class="secure">
           <svg width="14" height="14" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 1a5 5 0 0 0-5 5v4H6a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-9a2 2 0 0 0-2-2h-1V6a5 5 0 0 0-5-5Zm-3 9V6a3 3 0 1 1 6 0v4H9Z"/></svg>
-          Payments are processed securely by Flutterwave
+          Payments are processed securely by Flutterwave. KCF never sees your card details.
         </p>
       </form>
     </div>
